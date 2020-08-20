@@ -1,12 +1,13 @@
 class CharactersController < ApplicationController
 
+    before_action :find_character, only: [:show, :update, :destroy]
+
     def index 
         @characters = Character.all
         render json: @characters
     end
 
     def show
-        @character = Character.find_by(params[:id])
         render json: @character
     end
 
@@ -20,9 +21,13 @@ class CharactersController < ApplicationController
         render json: @character
     end
 
-    def delete
-        @character = Character.find_by(params[:id])
+    def destroy
         @character.destroy
-        render json: @character
+    end
+
+    private
+
+    def find_character
+        @character = Character.find(params[:id])
     end
 end
